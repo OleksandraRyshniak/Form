@@ -52,6 +52,30 @@ namespace FormElements
         {
             Button btn = (Button)sender;
             MessageBox.Show("Oli valitud " + btn.Text);
-        }        
+        }
+
+
+        private void CustomForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // CustomForm
+            // 
+            this.ClientSize = new System.Drawing.Size(282, 253);
+            this.Name = "CustomForm";
+            this.Load += new System.EventHandler(this.CustomForm_Load_1);
+            this.ResumeLayout(false);
+
+        }
+
+        private void CustomForm_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

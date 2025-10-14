@@ -68,7 +68,6 @@ namespace FormElements
             pic.Image = Image.FromFile(@"..\..\Images\close_box_red.png");           
             pic.DoubleClick += Pic_DoubleClick;
 
-            
 
             tree.Nodes.Add(tn);
             this.Controls.Add(tree);
@@ -89,8 +88,6 @@ namespace FormElements
             Form1 Form = new Form1();
             Form.Show();
             this.Hide();
-            
-
         }
 
         private void Lbl_MouseHover(object sender, EventArgs e)
