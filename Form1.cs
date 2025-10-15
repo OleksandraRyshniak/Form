@@ -61,6 +61,8 @@ namespace FormElements
             lbl.MouseHover += Lbl_MouseHover;
             lbl.MouseLeave += Lbl_MouseLeave;
 
+            InitializeComponent();
+
             pic = new PictureBox();
             pic.Size = new Size(50, 50);
             pic.Location = new Point(150, 60);
@@ -114,7 +116,15 @@ namespace FormElements
         {
             if (e.Node.Text=="Nupp")
             {
-                this.Controls.Add(btn);
+                if (Controls.Contains(btn)){
+                    Controls.Remove(btn);
+                    Refresh();
+                }
+                else 
+                { 
+                    Controls.Add(btn);
+                    btn.BringToFront();
+                }
             }
             else if (e.Node.Text== "Silt")
             {
@@ -178,9 +188,9 @@ namespace FormElements
                 tabC.Location = new Point(450, 50);
                 tabC.Size = new Size(300, 200);
                 tabP1 = new TabPage("TTHK");
-                WebBrowser wb = new WebBrowser();
-                wb.Url=new Uri("https://www.tthk.ee/");
-                tabP1.Controls.Add(wb);
+                //WebBrowser wb = new WebBrowser();
+                //wb.Url=new Uri("https://www.tthk.ee/");
+                //tabP1.Controls.Add(wb);
                 tabP2 = new TabPage("Teine");
 //Teeme ise!
                 tabP3 = new TabPage("+");
@@ -226,6 +236,7 @@ namespace FormElements
                 this.Menu = menu;
                 //
             }
+            tree.SelectedNode = null;
         }
 
         private void menuFile_Exit_Select(object sender, EventArgs e)
@@ -254,6 +265,11 @@ namespace FormElements
         private void Form1_Load(object sender, EventArgs e)
         {
            
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void TabC_DoubleClick(object sender, EventArgs e)

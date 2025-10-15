@@ -13,16 +13,15 @@ namespace FormElements
 {
     public partial class Form2 : Form
     {
-
-
         TreeView tree;
         Label lbl;
         PictureBox pic;
         CheckBox c_btn1, c_btn2, c_btn3, c_btn4;
         RadioButton r_btn1, r_btn2;
         TabControl tabC;
-        TabPage tabP1, tabP2, tabP3;
+        TabPage tabP1, tabP2, tabP3, tabP4;
         ListBox lb;
+        //TextBox tb;
         bool t = true;
 
         public Form2()
@@ -38,12 +37,14 @@ namespace FormElements
             tn.Nodes.Add("Märkeruudud");
             tn.Nodes.Add("Radio nupud");
             tn.Nodes.Add("Message Box");
+            tn.Nodes.Add("Tab Control");
             tn.Nodes.Add("List Box");
+            //tn.Nodes.Add("Tekst");
             tn.Nodes.Add("Menu");
 
             lbl = new Label();
             lbl.Text = "Elementide loomine c# abil";
-            lbl.Font = new Font("Arial", 20);
+            lbl.Font = new Font("Arial", 18);
             lbl.Size = new Size(400, 30);
             lbl.Location = new Point(150, 0);
             lbl.MouseHover += Lbl_MouseHover;
@@ -69,7 +70,6 @@ namespace FormElements
             click++;
             if (click == 3) { click = 0; }
         }
-
         private void Tree_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (e.Node.Text == "Pildid")
@@ -108,10 +108,10 @@ namespace FormElements
             {
                 r_btn1 = new RadioButton();
                 r_btn1.Text = "Must teema";
-                r_btn1.Location = new Point(200, 420);
+                r_btn1.Location = new Point(200, 330);
                 r_btn2 = new RadioButton();
                 r_btn2.Text = "Valge teema";
-                r_btn2.Location = new Point(200, 440);
+                r_btn2.Location = new Point(200, 300);
                 this.Controls.Add(r_btn1);
                 this.Controls.Add(r_btn2);
                 r_btn1.CheckedChanged += new EventHandler(r_btn_Checked);
@@ -140,6 +140,43 @@ namespace FormElements
                     MessageBox.Show("Veel MessageBox", "Kõige lihtsam aken");
                 }
             }
+            else if (e.Node.Text == "Tab Control")
+            {
+                tabC = new TabControl();
+                tabC.Location = new Point(450, 200);
+                tabC.Size = new Size(300, 200);
+                tabP1 = new TabPage("Esimene pilt");
+                PictureBox pb1 = new PictureBox();
+                pb1.Dock = DockStyle.Fill;
+                pb1.Image = Image.FromFile(@"..\..\Images\1.jpg");
+                pb1.SizeMode = PictureBoxSizeMode.CenterImage;
+                tabP1.Controls.Add(pb1);
+
+                tabP2 = new TabPage("Teine pilt");
+                PictureBox pb2 = new PictureBox();
+                pb2.Dock = DockStyle.Fill;
+                pb2.Image = Image.FromFile(@"..\..\Images\2.jpg");
+                pb2.SizeMode = PictureBoxSizeMode.CenterImage;
+                tabP2.Controls.Add(pb2);
+
+                tabP3 = new TabPage("Kolmmas pilt");
+                PictureBox pb3 = new PictureBox();
+                pb3.Dock = DockStyle.Fill;
+                pb3.Image = Image.FromFile(@"..\..\Images\3.jpg");
+                pb3.SizeMode = PictureBoxSizeMode.CenterImage;
+                tabP3.Controls.Add(pb3);
+
+                tabP4 = new TabPage("+");
+                tabP4.DoubleClick += TabP4_DoubleClick;
+
+                tabC.Controls.Add(tabP1);
+                tabC.Controls.Add(tabP2);
+                tabC.Controls.Add(tabP3);
+                tabC.Controls.Add(tabP4);
+                this.Controls.Add(tabC);
+
+                tabC.DoubleClick += TabC_DoubleClick;
+            }
             else if (e.Node.Text == "List Box")
             {
                 lb = new ListBox();
@@ -148,7 +185,7 @@ namespace FormElements
                 lb.Items.Add("Roheline");
                 lb.Items.Add("Punane");
                 lb.Items.Add("Sinine");
-                lb.Location = new Point(150, 120);
+                lb.Location = new Point(150, 150);
                 lb.SelectedIndexChanged += new EventHandler(ls_SelectedIndexChanged);
                 this.Controls.Add(lb);
             }
@@ -160,6 +197,16 @@ namespace FormElements
                 menu.MenuItems.Add(menuFile);
                 this.Menu = menu;
             }
+            //else if (e.Node.Text == "Tekst")
+            //{
+            //    tb = new TextBox();
+            //    tb.Size = new Size(200, 30);
+            //    tb.Location = new Point(150, 50);
+            //    tb.GotFocus += Tb_GotFocus;
+            //    tb.LostFocus += Tb_LostFocus;
+            //    this.Controls.Add(tb);
+            //}
+            tree.SelectedNode = null;
         }
         private void Lbl_MouseLeave(object sender, EventArgs e)
         {
@@ -191,18 +238,15 @@ namespace FormElements
         {
             if (r_btn1.Checked)
             {
-                this.BackColor = Color.Black;
-                r_btn2.ForeColor = Color.White;
-                r_btn1.ForeColor = Color.White;
+                this.tree.BackColor = Color.Black;
+                tree.ForeColor = Color.White;
             }
             else if (r_btn2.Checked)
             {
-                this.BackColor = Color.White;
-                r_btn2.ForeColor = Color.Black;
-                r_btn1.ForeColor = Color.Black;
+                this.tree.BackColor = Color.White;
+                tree.ForeColor = Color.Black;
             }
         }
-
         private void C_btn1_CheckedChanged(object sender, EventArgs e)
         {
             if (t)
@@ -222,7 +266,6 @@ namespace FormElements
                 t = true;
             }
         }
-
         private void C_btn2_CheckedChanged(object sender, EventArgs e)
         {
             if (t)
@@ -240,7 +283,6 @@ namespace FormElements
                 t = true;
             }
         }
-
         private void C_btn3_CheckedChanged(object sender, EventArgs e)
         {
             if (t)
@@ -258,7 +300,6 @@ namespace FormElements
                 t = true;
             }
         }
-
         private void C_btn4_CheckedChanged(object sender, EventArgs e)
         {
             if (t)
@@ -280,12 +321,39 @@ namespace FormElements
             }
 
         }
+        private void TabC_DoubleClick(object sender, EventArgs e)
+        {
+            string title = "tabP" + (tabC.TabCount - 1).ToString();
+            TabPage tb = new TabPage(title);
 
-
+            tabC.TabPages.Add(tb);
+        }
+        private void TabP4_DoubleClick(object sender, EventArgs e)
+        {
+            string title = "New tab" + (tabC.TabCount + 1).ToString();
+            TabPage tb = new TabPage(title);
+            tabC.TabPages.Add(tb);
+        }
         private void Form2_Load(object sender, EventArgs e)
         {
             
         }
-    }
 
+        //private void Tb_LostFocus(object sender, EventArgs e)
+        //{
+        //    if (string.IsNullOrWhiteSpace(tb.Text))
+        //    {
+        //        tb.ForeColor = Color.Gray;
+        //        tb.Text = "Sisesta pealkiri ...";
+        //    }
+        //}
+        //private void Tb_GotFocus(object sender, EventArgs e)
+        //{
+        //    if (tb.ForeColor == Color.Gray)
+        //    {
+        //        tb.Text = "";
+        //        tb.ForeColor = Color.Black;
+        //    }
+        //}
     }
+}
