@@ -15,7 +15,7 @@ namespace FormElements
     {
         TreeView tree;
         Label lbl;
-        PictureBox pic;
+        PictureBox pic, pic_1;
         CheckBox c_btn1, c_btn2, c_btn3, c_btn4;
         RadioButton r_btn1, r_btn2;
         TabControl tabC;
@@ -39,16 +39,14 @@ namespace FormElements
             tn.Nodes.Add("Message Box");
             tn.Nodes.Add("Tab Control");
             tn.Nodes.Add("List Box");
-            //tn.Nodes.Add("Tekst");
             tn.Nodes.Add("Menu");
 
             lbl = new Label();
-            lbl.Text = "Elementide loomine c# abil";
+            lbl.Text = "Tere!";
             lbl.Font = new Font("Arial", 18);
             lbl.Size = new Size(400, 30);
             lbl.Location = new Point(150, 0);
-            lbl.MouseHover += Lbl_MouseHover;
-            lbl.MouseLeave += Lbl_MouseLeave;
+
 
             pic = new PictureBox();
             pic.Size = new Size(70, 70);
@@ -57,18 +55,24 @@ namespace FormElements
             pic.Image = Image.FromFile(@"..\..\Images\1.jpg");
             pic.DoubleClick += Pic_DoubleClick;
 
+            pic_1 = new PictureBox();
+            pic_1.Size = new Size(100, 100);
+            pic_1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pic_1.Image = Image.FromFile(@"..\..\Images\2.jpg");
+            pic_1.Location = new Point(300, 200);
+
             tree.Nodes.Add(tn);
             this.Controls.Add(tree);
         }
-
-        int click = 0;
         private void Pic_DoubleClick(object sender, EventArgs e)
         {   
-            string[] images = { "2.jpg", "3.jpg", "4.jpg" };
-            string fail = images[click];
+            Random random = new Random();
+            int index = random.Next(0, 4);
+            string[] images = { "2.jpg", "3.jpg", "4.jpg", "1.jpg" };
+            string fail = images[index];
+
             pic.Image = Image.FromFile(@"..\..\Images\" + fail);
-            click++;
-            if (click == 3) { click = 0; }
+
         }
         private void Tree_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -89,14 +93,14 @@ namespace FormElements
                 c_btn2.Location = new Point(350, 100);
                 c_btn2.CheckedChanged += C_btn2_CheckedChanged;
                 c_btn3 = new CheckBox();
-                c_btn3.Size = new Size(100, 100);
-                c_btn3.Image = Image.FromFile(@"..\..\Images\3.jpg");
+                c_btn3.Text = "Tere!";
+                c_btn1.Size = new Size(c_btn1.Text.Length * 9, 20);
                 c_btn3.Location = new Point(450, 100);
                 c_btn3.CheckedChanged += C_btn3_CheckedChanged;
                 c_btn4 = new CheckBox();
                 c_btn4.Text = "Kuva pilt";
                 c_btn4.Size = new Size(c_btn1.Text.Length * 9, 20);
-                c_btn4.Location = new Point(550, 100);
+                c_btn4.Location = new Point(555, 100);
                 c_btn4.CheckedChanged += C_btn4_CheckedChanged;
 
                 this.Controls.Add(c_btn1);
@@ -119,21 +123,13 @@ namespace FormElements
             }
             else if (e.Node.Text == "Message Box")
             {
-                MessageBox.Show("Tere tulemast!", "MessageBox");
                 var answer = MessageBox.Show("Kas soovid registreeruda?", "Aken koos nupudega", MessageBoxButtons.YesNo);
                 if (answer == DialogResult.Yes)
                 {
                     string text = Interaction.InputBox("Sisesta oma nimi", "InputBox", "...");
-                    if (MessageBox.Show("Kas tahad tekst saada Tekskastisse?", "Teksti salvestamine", MessageBoxButtons.OKCancel) == DialogResult.OK)
-                    {
-                        lbl.Text = "Tere " + text + " !"; ;
-                        Controls.Add(lbl);
-                    }
-                    else
-                    {
-                        lbl.Text = "Siis mina lisan oma teksti!";
-                        Controls.Add(lbl);
-                    }
+                    lbl.Text = "Tere " + text + " !"; ;
+                    lbl.Font = new Font("Arial", 18);
+                    Controls.Add(lbl);
                 }
                 else
                 {
@@ -193,45 +189,40 @@ namespace FormElements
             {
                 MainMenu menu = new MainMenu();
                 MenuItem menuFile = new MenuItem("Form");
-                menuFile.MenuItems.Add("Restart", new EventHandler(menuFile_Exit_Select));
+                menuFile.MenuItems.Add("Restart", new EventHandler(menuFile_Restart_Select));
+                menuFile.MenuItems.Add("Exit", new EventHandler(menuFile_Exit_Select));
+                menuFile.MenuItems.Add("Label", new EventHandler(menuFile_Label_Select));
                 menu.MenuItems.Add(menuFile);
                 this.Menu = menu;
             }
-            //else if (e.Node.Text == "Tekst")
-            //{
-            //    tb = new TextBox();
-            //    tb.Size = new Size(200, 30);
-            //    tb.Location = new Point(150, 50);
-            //    tb.GotFocus += Tb_GotFocus;
-            //    tb.LostFocus += Tb_LostFocus;
-            //    this.Controls.Add(tb);
-            //}
             tree.SelectedNode = null;
-        }
-        private void Lbl_MouseLeave(object sender, EventArgs e)
-        {
-            lbl.BackColor = Color.Transparent;
-            Form1 Form = new Form1();
-            Form.Show();
-            this.Hide();
-        }
-        private void Lbl_MouseHover(object sender, EventArgs e)
-        {
-            lbl.BackColor = Color.FromArgb(200, 10, 20);
         }
         private void menuFile_Exit_Select(object sender, EventArgs e)
         {
+            Application.Exit();
+        }
+        private void menuFile_Restart_Select(object sender, EventArgs e)
+        {
             Application.Restart();
+        }
+        private void menuFile_Label_Select(object sender, EventArgs e)
+        {
+            lbl.Text = "Windows Form";
+            lbl.Font = new Font("Broadway", 18);
+            lbl.Size = new Size(400, 30);
+            lbl.Location = new Point(150, 0);
+            Controls.Add(lbl);
+
         }
         private void ls_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (lb.SelectedItem.ToString())
             {
-                case ("Sinine"): BackColor = Color.Blue; break;
-                case ("Kollane"): BackColor = Color.Yellow; break;
-                case ("Punane"): BackColor = Color.Red; break;
+                case ("Sinine"): BackColor = Color.LightBlue; break;
+                case ("Kollane"): BackColor = Color.LightYellow; break;
+                case ("Punane"): BackColor = Color.Salmon; break;
                 case ("Rosa"): BackColor = Color.Pink; break;
-                case ("Roheline"): BackColor = Color.Green; break;
+                case ("Roheline"): BackColor = Color.LightGreen; break;
             }
         }
         private void r_btn_Checked(object sender, EventArgs e)
@@ -252,7 +243,6 @@ namespace FormElements
             if (t)
             {
                 this.Size = new Size(1000, 1000);
-                pic.BorderStyle = BorderStyle.Fixed3D;
                 c_btn1.Text = "Väiksem";
                 c_btn1.Font = new Font("Arial", 8, FontStyle.Bold);
                 t = false;
@@ -260,7 +250,6 @@ namespace FormElements
             else
             {
                 this.Size = new Size(700, 500);
-                pic.BorderStyle = BorderStyle.Fixed3D;
                 c_btn1.Text = "Suurendame";
                 c_btn1.Font = new Font("Arial", 7, FontStyle.Bold);
                 t = true;
@@ -288,15 +277,17 @@ namespace FormElements
             if (t)
             {
                 c_btn3.Size = new Size(100, 100);
-                c_btn3.Image = Image.FromFile(@"..\..\Images\4.jpg");
-                c_btn3.Location = new Point(450, 100);
+                c_btn3.Text = "Head aega!";
+                c_btn3.Font = new Font("Arial", 8, FontStyle.Bold);
+
                 t = false;
             }
             else
             {
                 c_btn3.Size = new Size(100, 100);
-                c_btn3.Image = Image.FromFile(@"..\..\Images\3.jpg");
-                c_btn3.Location = new Point(450, 100);
+                c_btn3.Text = "Tere!";
+                c_btn3.Font = new Font("Arial", 8, FontStyle.Bold);
+
                 t = true;
             }
         }
@@ -304,19 +295,17 @@ namespace FormElements
         {
             if (t)
             {
+
                 c_btn4.Size = new Size(100, 100);
-                c_btn4.Text = " ";
-                c_btn4.Image = Image.FromFile(@"..\..\Images\2.jpg");
-                c_btn4.Location = new Point(550, 100);
+                c_btn4.Text = "Pilt";
+                this.Controls.Add(pic_1);
                 t = false;
             }
             else
             {
-                pic.BorderStyle = BorderStyle.Fixed3D;
                 c_btn4.Text = "Kuva pilt";
-                c_btn4.Image = Image.FromFile(@"..\..\Images\pusto.png");
                 c_btn4.Font = new Font("Arial", 8, FontStyle.Bold);
-                c_btn4.Location = new Point(550, 100);
+                this.Controls.Remove(pic_1);
                 t = true;
             }
 
@@ -336,24 +325,6 @@ namespace FormElements
         }
         private void Form2_Load(object sender, EventArgs e)
         {
-            
         }
-
-        //private void Tb_LostFocus(object sender, EventArgs e)
-        //{
-        //    if (string.IsNullOrWhiteSpace(tb.Text))
-        //    {
-        //        tb.ForeColor = Color.Gray;
-        //        tb.Text = "Sisesta pealkiri ...";
-        //    }
-        //}
-        //private void Tb_GotFocus(object sender, EventArgs e)
-        //{
-        //    if (tb.ForeColor == Color.Gray)
-        //    {
-        //        tb.Text = "";
-        //        tb.ForeColor = Color.Black;
-        //    }
-        //}
     }
 }
